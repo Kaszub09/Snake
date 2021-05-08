@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Language name="English">
+  <text id="MENU_new_game">New Game</text>
+  <text id="MENU_options">Options</text>
+  <text id="MENU_exit">Exit</text>
+  <text id="MENU_apply">Apply</text>
+  <text id="MENU_back">Back</text>
+</Language>
+

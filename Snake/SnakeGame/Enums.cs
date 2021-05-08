@@ -19,4 +19,5 @@ namespace Snake {
     public enum GameState { Prepared, Running, Finished }
 
     public enum Field { Empty, Snake, Fruit }
+    public enum FontSize { Small, Normal, Big }
 }

@@ -7,39 +7,70 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Snake {
     class MenuScene:Scene {
-
+        Command _lastSendCommand;
         Page _mainMenu;
+        Page _settings;
         Page _currentPage;
-        Rectangle _rectSceneBg;
-        Rectangle _rectPage;
+        Rectangle _wSize;
 
+        public MenuScene() : this(Rectangle.Empty) { }
 
-        public MenuScene() {
-            _rectSceneBg = new Rectangle(new Point(0, 0), Settings.WindowEnd);
-            _rectPage = new Rectangle(new Point(0, 0), Settings.WindowEnd);
-
-            CreatePages();
-
+        public MenuScene(Rectangle WindowSize) {
+            _wSize = WindowSize;
+            CreateAllPages();
             _currentPage = _mainMenu;
-
+            _lastSendCommand = Command.None;
         }
 
-        private void CreatePages() {
-            _mainMenu = new Page(ref _rectPage);
-            _mainMenu.SetGrid(5,3);
-            _mainMenu.AddControl(new TextControl("Start", Vector2.Zero, Assets.Colors.MenuScene.Font, Assets.Fonts.Statistics_24),1,1);
-            _mainMenu.AddControl(new TextControl("Settings", Vector2.Zero, Assets.Colors.MenuScene.Font, Assets.Fonts.Statistics_24), 2, 1);
-            _mainMenu.AddControl(new TextControl("Exit", Vector2.Zero, Assets.Colors.MenuScene.Font, Assets.Fonts.Statistics_24), 3, 1);
+        private void CreateAllPages() {
+
+            //Main menu, 3 buttons
+            var menuButton = new Button("MENU_new_game") { Color = Colors.MenuScene.Font };
+            menuButton.Activated += (sender, e) => SceneManager.NewGameScene();
+            var settingsButton = new Button("MENU_options") { Color = Colors.MenuScene.Font };
+            settingsButton.Activated += (sender, e) => _currentPage=_settings;
+            var exitButton = new Button("MENU_exit") { Color = Colors.MenuScene.Font };
+            exitButton.Activated += (sender, e) => SceneManager.ExitGame(); ;
+
+            _mainMenu = new Page(Rectangle.Empty, new List<ControlsRow>() {
+                new ControlsRow(Rectangle.Empty, new List<Control>() { menuButton}),
+                new ControlsRow(Rectangle.Empty, new List<Control>() {settingsButton }),
+                new ControlsRow(Rectangle.Empty, new List<Control>() { exitButton })
+            });
+
+
+            var okButton = new Button("MENU_apply") { Color = Colors.MenuScene.Font };
+            var backButton = new Button("MENU_back") { Color = Colors.MenuScene.Font };
+            backButton.Activated += (sender, e) => _currentPage = _mainMenu;
+
+            _settings = new Page(Rectangle.Empty, new List<ControlsRow>() {
+                new ControlsRow(Rectangle.Empty, new List<Control>() {okButton }),
+                new ControlsRow(Rectangle.Empty, new List<Control>() { backButton })
+            });
+        }
+
+        public void UpdatePosition(Point WindowSize) {
+            _wSize = new Rectangle(Point.Zero, WindowSize);
+            _wSize.Inflate(0,-100);
+            UpdatePagesPosition();
+        }
+
+        private void UpdatePagesPosition() {
+            _mainMenu.UpdatePosition(_wSize);
+            _settings.UpdatePosition(_wSize);
         }
 
         public void Update(GameTime gameTime, Command cmd) {
-            
-
+            if (cmd ==_lastSendCommand) {
+                cmd = Command.None;
+            } else {
+                _lastSendCommand = cmd;
+            }
+            _currentPage.Update(gameTime, cmd);
 
         }
 
         public void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(Assets.Textures.Pixel, _rectSceneBg, Assets.Colors.GlobalBG);
             _currentPage.Draw(spriteBatch);
         }
     }

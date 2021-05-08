@@ -5,20 +5,17 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Snake.AllAssets {
-    public class Textures {
+namespace Snake {
+    static public class Textures {
 
-        public  Texture2D SnakeHead { get; private set; }
-        public  Texture2D SnakeBody { get; private set; }
-        public  Texture2D SnakeTail { get; private set; }
-        public  Texture2D Fruit { get; private set; }
-        public  Texture2D Pixel { get; private set; }
+        static public Texture2D SnakeHead { get; private set; }
+        static public Texture2D SnakeBody { get; private set; }
+        static public Texture2D SnakeTail { get; private set; }
+        static public Texture2D Fruit { get; private set; }
+        static public Texture2D Pixel { get; private set; }
 
-        public Textures(ContentManager content) {
-            Load(content);
-        }
 
-        public  void Load(ContentManager content) {
+        static public void Load(ContentManager content) {
             SnakeHead = content.Load<Texture2D>("Textures/Snake/Head");
             SnakeBody = content.Load<Texture2D>("Textures/Snake/Body");
             SnakeTail = content.Load<Texture2D>("Textures/Snake/Tail");

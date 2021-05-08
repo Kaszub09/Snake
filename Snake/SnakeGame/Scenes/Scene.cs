@@ -10,6 +10,7 @@ namespace Snake
 
     interface Scene
     {
+        public void UpdatePosition(Point windowEndpoint) { }
         public void Update(GameTime gameTime, Command cmd) { }
         public void Draw(SpriteBatch spriteBatch) { }
 

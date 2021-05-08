@@ -79,10 +79,10 @@ namespace Snake
 
         public void Draw(SpriteBatch spriteBatch) {
             
-            spriteBatch.Draw(Assets.Textures.Pixel, _rectSceneBg,Assets.Colors.GlobalBG);
-            spriteBatch.Draw(Assets.Textures.Pixel, _rectGameScreen, Assets.Colors.GameScene.Border);
-            spriteBatch.Draw(Assets.Textures.Pixel, _rectBoard, Assets.Colors.GameScene.FieldBg);
-            spriteBatch.Draw(Assets.Textures.Pixel, _rectStatus, Assets.Colors.GameScene.StatisticsBg);
+            spriteBatch.Draw( Textures.Pixel, _rectSceneBg, Colors.GlobalBG);
+            spriteBatch.Draw( Textures.Pixel, _rectGameScreen,  Colors.GameScene.Border);
+            spriteBatch.Draw( Textures.Pixel, _rectBoard,  Colors.GameScene.FieldBg);
+            spriteBatch.Draw( Textures.Pixel, _rectStatus,  Colors.GameScene.StatisticsBg);
 
             _fruit.Draw(spriteBatch);
             _snake.Draw(spriteBatch);

@@ -7,18 +7,50 @@ using System.Text;
 namespace Snake.SnakeGame.MenuSceneObjects {
     abstract class  Control {
 
-        protected Color _color = Color.White;
-        protected string _text;
-        protected Vector2  _centerPos;
+        public Color Color;
         public bool IsSelected;
+
+        protected string _textID;
+        protected string _text;
+        protected Vector2 _center;
         protected SpriteFont _font;
 
-        public virtual void Draw(SpriteBatch spriteBatch) {
-            var size = _font.MeasureString(_text);
-            spriteBatch.DrawString(_font,_text, new Vector2(_centerPos.X-size.X/2, _centerPos.Y - size.Y / 2), _color);
+        public abstract event EventHandler Activated;
+
+        public Control() {
+            Settings.FontChanged += UpdateFont;
+            Settings.LanguageChanged += UpdateText;
         }
-        public void UpdateCenter(Vector2 centerPos) {
-            _centerPos = centerPos;
+
+        public virtual void Draw(SpriteBatch spriteBatch) {
+            var origin = _font.MeasureString(_text) /2;
+            spriteBatch.DrawString(_font, _text, _center, Color,0F, origin, IsSelected?1.5F:1F, SpriteEffects.None,1);
+        }
+        public virtual void UpdatePosition(Rectangle position) {
+            _center = position.Center.ToVector2();
+        }
+
+        public abstract void Update(GameTime gameTime, Command cmd);
+
+        protected void UpdateText(object sender, EventArgs e) {
+            var text = Subtitles.Text[_textID].ToCharArray();
+            for(int i = 0; i < text.Length; i++) {
+                if (!_font.Characters.Contains(text[i]))
+                    text[i] = ' ';
+            }
+            _text = new String(text);
+        }
+
+        protected void UpdateFont(object sender, EventArgs e) {
+            //////////////////TO DO
+            _font = Fonts.Statistics_24;
+
+            UpdateText(sender, e);
+        }
+
+        ~Control() {
+            Settings.FontChanged -= UpdateFont;
+            Settings.LanguageChanged -= UpdateText;
         }
     }
 }

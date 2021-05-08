@@ -22,9 +22,10 @@ namespace Snake.GameSceneObjects {
 
         public StatisticsInfo(ref Rectangle rectParent) {
             _rectParent = rectParent;
-            _font = Settings.FontSize==12? Assets.Fonts.Statistics_12 : Assets.Fonts.Statistics_24;
+            _font = Settings.FontSize==12?  Fonts.Statistics_12 :  Fonts.Statistics_24;
             ShowFrametime = true;
             _maxFrameTime = new TimeSpan(0);
+            _displayText = new StringBuilder() ;
         }
 
 
@@ -62,7 +63,7 @@ namespace Snake.GameSceneObjects {
         }
 
         public void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.DrawString(_font, _displayText, _position, Assets.Colors.GameScene.StatisticsFont);
+            spriteBatch.DrawString(_font, _displayText, _position,  Colors.GameScene.StatisticsFont);
         }
 
     }

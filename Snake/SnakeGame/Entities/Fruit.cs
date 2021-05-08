@@ -15,7 +15,7 @@ namespace Snake
         
         public Fruit(ref Rectangle rectParent,ref Field[,] board)
         {
-            _texture = Assets.Textures.Fruit;
+            _texture = Textures.Fruit;
             _rectParent = rectParent;
             _board = board;
 

@@ -28,10 +28,10 @@ namespace Snake
             _board = board;
 
             //Body parts
-            _head = new BodyPart(ref _rectParent, Assets.Textures.SnakeHead, ref board,2,0, Direction.Right);
-            _tail = new BodyPart(ref _rectParent, Assets.Textures.SnakeTail, ref board, 0, 0, Direction.Right);
+            _head = new BodyPart(ref _rectParent,  Textures.SnakeHead, ref board,2,0, Direction.Right);
+            _tail = new BodyPart(ref _rectParent,  Textures.SnakeTail, ref board, 0, 0, Direction.Right);
             _bodyParts = new List<BodyPart>();
-            _bodyParts.Add(new BodyPart(ref _rectParent, Assets.Textures.SnakeBody, ref board, 1, 0, Direction.Right));
+            _bodyParts.Add(new BodyPart(ref _rectParent,  Textures.SnakeBody, ref board, 1, 0, Direction.Right));
 
             //Initial settings
             _timeElapsedSinceLastMoved = new TimeSpan(0);
@@ -71,7 +71,7 @@ namespace Snake
                 if(_board[nextX, nextY] == Field.Fruit) {
 
                     //Insert body part where head is
-                    var bodyPart = new BodyPart(ref _rectParent, Assets.Textures.SnakeBody, ref _board, _head.BoardX, _head.BoardY, _head.Dir);
+                    var bodyPart = new BodyPart(ref _rectParent,  Textures.SnakeBody, ref _board, _head.BoardX, _head.BoardY, _head.Dir);
                     _head.MoveTo(nextX, nextY, _nextDir);
                     bodyPart.MoveTo(bodyPart.BoardX, bodyPart.BoardY, bodyPart.Dir);
                     _bodyParts.Add(bodyPart);

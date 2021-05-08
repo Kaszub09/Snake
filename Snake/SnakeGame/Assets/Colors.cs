@@ -3,18 +3,18 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Snake.AllAssets {
-    public class Colors {
+namespace Snake {
+    public static class Colors {
 
-        public GameSceneColors GameScene;
-        public MenuSceneColors MenuScene;
-        public Color GlobalBG;
+        static public GameSceneColors GameScene;
+        static public MenuSceneColors MenuScene;
+        static public Color GlobalBG;
 
-        public Colors() {
+        static Colors() {
             LoadColors();
         }
 
-        public void LoadColors() {
+        public static void LoadColors() {
             GameScene = new GameSceneColors();
             MenuScene = new MenuSceneColors();
             GlobalBG = Color.Black;

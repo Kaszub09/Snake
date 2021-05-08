@@ -6,44 +6,67 @@ using System.Text;
 
 namespace Snake.SnakeGame.MenuSceneObjects {
     class Page {
-        GridDefinition _grid;
-        private Rectangle _rectParent;
-        private List<Control> _allControls;
 
+        private Rectangle _space;
+        private List<ControlsRow> _controlRows;
+        private int  _currentRow;
 
-        public Page(ref Rectangle rectParent) {
-            _rectParent = rectParent;
-            _allControls = new List<Control>();
-        }
+        public Page() : this(Rectangle.Empty) { }
 
-        public void SetGrid(int numberOfRows, int numberOfCols) {
-            _grid = new GridDefinition(ref _rectParent);
-            while (numberOfRows > 0) {
-                _grid.AddRow(1);
-                numberOfRows--;
-            }
-            while (numberOfCols > 0) {
-                _grid.AddColumn(1);
-                numberOfCols--;
+        public Page(Rectangle space) : this(Rectangle.Empty, new List<ControlsRow>()) { }
+
+        public Page(Rectangle space, List<ControlsRow> controlsRow) {
+            _space = space;
+            _controlRows = controlsRow;
+            _currentRow = controlsRow.Count==0?-1:0;
+            if (_currentRow > -1) {
+                _controlRows[_currentRow].IsSelected = true;
             }
         }
 
+        public void AddRow(ControlsRow row) {
+            _controlRows.Add(row);
+            UpdateRowsPosition();
+            _currentRow = 0;
+        }
 
-        public void AddControl(Control control, int row,int col) {
-            _grid.Add(control, row, col);
-            _grid.UpdateAllObjectsPosition();
-            control.UpdateCenter(_grid.GetCenterPoint(control));
-            _allControls.Add(control);
+        public void RemoveRow(ControlsRow row) {
+            _controlRows.Remove(row);
+            UpdateRowsPosition();
+            _currentRow = _controlRows.Count==0?-1:0;
+        }
+
+        public void UpdatePosition(Rectangle space) {
+            _space = space;
+            UpdateRowsPosition();
+        }
+
+        private void UpdateRowsPosition() {
+            if (_controlRows.Count > 0) {
+                var rowHeight = _space.Height / _controlRows.Count;
+                for (int i = 0; i < _controlRows.Count; i++) {
+                    _controlRows[i].UpdatePosition(new Rectangle(_space.X, _space.Y + rowHeight * i, _space.Width, rowHeight));
+                }
+            }
+            
         }
 
 
         public void Update(GameTime gameTime, Command cmd) {
-
-
+            if ((cmd == Command.KeyUp || cmd == Command.KeyDown) && _currentRow > -1 ) {
+                _controlRows[_currentRow].IsSelected = false;
+                _currentRow += cmd == Command.KeyDown?1: (_controlRows.Count-1) ;
+                _currentRow %= _controlRows.Count;
+                _controlRows[_currentRow].IsSelected = true;
+            }
+            
+            foreach (var item in _controlRows) {
+                item.Update(gameTime, cmd);
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch) {
-            foreach(var item in _allControls) {
+            foreach(var item in _controlRows) {
                 item.Draw(spriteBatch);
             }
         }

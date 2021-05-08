@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Language name="Polski">
+  <text id="MENU_new_game">Nowa gra</text>
+  <text id="MENU_options">Opcje</text>
+  <text id="MENU_exit">Wyjśćie</text>
+  <text id="MENU_apply">Zatwierdz</text>
+  <text id="MENU_back">Wroc</text>
+</Language>
+

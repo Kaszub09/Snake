@@ -14,6 +14,7 @@ namespace Snake
 
         public Snek()
         {
+            Subtitles.LoadAllLanguages();
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Settings.WindowEnd = new Point(Window.ClientBounds.Width, Window.ClientBounds.Height);
@@ -23,14 +24,15 @@ namespace Snake
         {
             base.Initialize();
             SceneManager.Initialise();
+            SceneManager.Game = this;
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            Assets.Load(Content);
-           
+             Textures.Load(Content);
+            Fonts.Load(Content);
         }
 
         protected override void Update(GameTime gameTime)
@@ -44,16 +46,21 @@ namespace Snake
                 cmd = Command.KeyLeft;
             else if (Keyboard.GetState().IsKeyDown(Keys.Right))
                 cmd = Command.KeyRight;
+            else if (Keyboard.GetState().IsKeyDown(Keys.Enter))
+                cmd = Command.OK;
+            else if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                cmd = Command.Cancel;
             else
                 cmd = Command.None;
 
             SceneManager.Update(gameTime,cmd);
+            
             //base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Assets.Colors.GlobalBG);
+            GraphicsDevice.Clear( Colors.GlobalBG);
 
             _spriteBatch.Begin(samplerState:SamplerState.PointClamp);
             SceneManager.Draw(_spriteBatch);

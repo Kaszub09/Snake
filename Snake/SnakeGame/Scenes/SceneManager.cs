@@ -10,12 +10,14 @@ namespace Snake
     public static class SceneManager
     {
         private static Scene _currentScene;
+        public static Game Game;
 
         public static void Initialise()
         {
-            _currentScene = new SnakeGameScene();
-            //_currentScene = new MenuScene();
+            _currentScene = new MenuScene();
+            _currentScene.UpdatePosition(Settings.WindowEnd);
         }
+
 
         public static void Update(GameTime gameTime, Command cmd)
         {
@@ -24,6 +26,20 @@ namespace Snake
         public static void Draw(SpriteBatch spriteBatch)
         {
             _currentScene.Draw(spriteBatch);
+        }
+
+        public static void NewGameScene() {
+            _currentScene = new SnakeGameScene();
+            _currentScene.UpdatePosition(Settings.WindowEnd);
+        }
+
+        public static void NewMenuScene() {
+            _currentScene = new MenuScene();
+            _currentScene.UpdatePosition(Settings.WindowEnd);
+        }
+
+        public static void ExitGame() {
+            Game.Exit();
         }
     }
 }
